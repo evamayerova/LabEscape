@@ -1,4 +1,7 @@
-Temp 
+Temp/* 
 Library
+Debug
 *.csproj
 *.sln
+*.vs
+*.meta
