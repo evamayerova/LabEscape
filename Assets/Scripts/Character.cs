@@ -16,6 +16,7 @@ public class Character : MonoBehaviour {
 
 	void Update()
 	{
+		// enable jump if player is on ground
 		if (grounded)
 		{
 			character.AddForce(Vector2.up * jumpForce);
@@ -25,18 +26,22 @@ public class Character : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
-		float move = Input.GetAxis("Horizontal");
-		character.velocity = new Vector2 (move * speed, character.velocity.y);
-
-		if (character.velocity.x > maxSpeed)
-			character.velocity = new Vector2 (maxSpeed, character.velocity.y);
-
-		if (character.velocity.x < -maxSpeed)
-			character.velocity = new Vector2 (-maxSpeed, character.velocity.y);
+		float move = Input.GetAxis ("Horizontal");
+		// immediate stop
+		if (!Input.GetKey (KeyCode.RightArrow) && !Input.GetKey (KeyCode.LeftArrow)) {
+			move = 0.0f;
+			character.velocity = Vector2.zero;
+		}
+		// movement
+		else {
+			character.velocity = new Vector2 (move * speed, character.velocity.y);
+			character.velocity = Vector2.ClampMagnitude (character.velocity, maxSpeed);
+		}
 	}
 
 	void OnCollisionStay2D(Collision2D coll)
 	{
+		// player on ground
 		if (coll.gameObject.tag == "Ground" && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.UpArrow)))
 			grounded = true;
 	}
