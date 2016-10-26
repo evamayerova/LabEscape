@@ -28,9 +28,10 @@ public class Character : MonoBehaviour {
 	{
 		float move = Input.GetAxis ("Horizontal");
 		// immediate stop
-		if (!Input.GetKey (KeyCode.RightArrow) && !Input.GetKey (KeyCode.LeftArrow)) {
+		if (!Input.GetKey (KeyCode.RightArrow) && !Input.GetKey (KeyCode.LeftArrow)) 
+		{
 			move = 0.0f;
-			character.velocity = Vector2.zero;
+			character.velocity = new Vector2 (0.0f, character.velocity.y);
 		}
 		// movement
 		else {
