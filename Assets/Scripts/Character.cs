@@ -5,7 +5,6 @@ public class Character : MonoBehaviour {
 
 	private Rigidbody2D character;
 	private bool grounded = false;
-	public float maxSpeed;
 	public float speed;
 	public float jumpForce;
 	// Use this for initialization
@@ -27,8 +26,14 @@ public class Character : MonoBehaviour {
 	void FixedUpdate () 
 	{
 		float move = Input.GetAxis ("Horizontal");
-		// immediate stop
-		if (!Input.GetKey (KeyCode.RightArrow) && !Input.GetKey (KeyCode.LeftArrow)) 
+		// static movement
+		if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+			character.velocity = new Vector2 (move * speed, character.velocity.y);
+		else
+			character.velocity = new Vector2 (0.0f, character.velocity.y);
+
+		// fluent start, immediate stop
+		/*if (!Input.GetKey (KeyCode.RightArrow) && !Input.GetKey (KeyCode.LeftArrow)) 
 		{
 			move = 0.0f;
 			character.velocity = new Vector2 (0.0f, character.velocity.y);
@@ -37,7 +42,7 @@ public class Character : MonoBehaviour {
 		else {
 			character.velocity = new Vector2 (move * speed, character.velocity.y);
 			character.velocity = Vector2.ClampMagnitude (character.velocity, maxSpeed);
-		}
+		}*/
 	}
 
 	void OnCollisionStay2D(Collision2D coll)
@@ -45,5 +50,14 @@ public class Character : MonoBehaviour {
 		// player on ground
 		if (coll.gameObject.tag == "Ground" && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.UpArrow)))
 			grounded = true;
+	}
+	
+	void OnTriggerEnter2D(Collider2D c)
+	{
+		// if trigger object is pickable, add item to inventory
+		if (c.gameObject.tag == "Pick Up") {
+			c.gameObject.SetActive (false);
+			character.GetComponent<Inventory>().AddObject(c.name);
+		}
 	}
 }
