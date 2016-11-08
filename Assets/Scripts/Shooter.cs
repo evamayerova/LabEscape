@@ -10,7 +10,6 @@ public class Shooter : MonoBehaviour {
     public LayerMask toShoot;
     Transform firePointTransform;
     Vector2 playerPosition;
-    float epsilon = 0.01f;
 
 	void Start () {
         Debug.Log("defining firepoint transform");  
