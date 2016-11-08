@@ -17,7 +17,7 @@ public class BulletMovement : MonoBehaviour {
         remaining = distance;
         rb2d.position = startPosition;
         rb2d.gravityScale = 0.0f;
-        destination = startPosition + direction.normalized * distance;
+        destination = startPosition + direction * distance;
 	}
 	
 	// Update is called once per frame
@@ -27,10 +27,18 @@ public class BulletMovement : MonoBehaviour {
             Debug.Log("Destroying bullet");
             Destroy(gameObject);
         }
-
-        Debug.Log("Rigid body position " + rb2d.position + ", destination " + destination);
+        
         Vector2 newPos = Vector2.MoveTowards(rb2d.position, destination, speed * Time.deltaTime);
         rb2d.MovePosition(newPos);
-        remaining = destination.x - newPos.x;
+        remaining = direction.x > 0 ? destination.x - newPos.x : newPos.x - destination.x;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // Debug-draw all contact points and normals
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+        }
     }
 }

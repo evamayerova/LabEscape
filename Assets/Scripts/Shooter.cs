@@ -19,15 +19,22 @@ public class Shooter : MonoBehaviour {
 	void Update () {
         playerPosition = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
 
+        if (Input.GetKeyDown(KeyCode.RightArrow) && Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            firePointTransform = transform.FindChild("FirePoint");
+        }
+
         if (firePointTransform == null)
         {
             Debug.LogError("No firepoint");
         }
+
         if (Input.GetKeyDown(KeyCode.RightControl)) {
-            Vector2 destination = new Vector2(playerPosition.x + firePointTransform.position.x > playerPosition.x ? firePointTransform.position.x + range : (-firePointTransform.position.x -range), playerPosition.y);
+            Debug.Log("Player position" + playerPosition.x + "firepoint position" + firePointTransform.position.x);
+            Vector2 destination = new Vector2(firePointTransform.position.x > playerPosition.x ? firePointTransform.position.x + range : (-firePointTransform.position.x - range), playerPosition.y);
             Vector2 direction = destination - new Vector2(firePointTransform.position.x, firePointTransform.position.y);
 
-            Bullet b = new Bullet(firePointTransform.position, direction, sprite, range, bulletSpeed);
+            Bullet b = new Bullet(firePointTransform.position, direction.normalized, sprite, range, bulletSpeed);
         }
     }
 }

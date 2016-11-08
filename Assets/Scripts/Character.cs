@@ -7,6 +7,7 @@ public class Character : MonoBehaviour {
 	private bool grounded = false;
 	public float speed;
 	public float jumpForce;
+    public int hitpoints = 100;
 	// Use this for initialization
 	void Start () 
 	{
