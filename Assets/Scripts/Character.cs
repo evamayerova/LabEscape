@@ -1,25 +1,40 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Web.Helpers;
+using UnityEngine;
 
 public class Character
 {
-    private class Stats
-    {
-        private int maxHitpoints;
-        private float jumpForce;
-        private float speed;
-    }
+    private int maxHitpoints;
+    private float jumpForce;
+    private float speed;
     private int currHitpoints;
+    private string characterType;
 
-	public Character(float jumpForce, int maxHitpoints, float speed) 
-	{
-        // read configuration file
-        using (StreamReader r = new StreamReader("Conf/characters.json"))
+
+    private JSONObject readConfig()
+    {
+        using (StreamReader r = new StreamReader("Assets/Conf/characters.json"))
         {
             string json = r.ReadToEnd();
-            dynamic data = Json.Decode(json);
+            JSONObject j = new JSONObject(json);
+
+            if (!j[characterType])
+            {
+                Debug.LogError("No entry named " + characterType);
+            }
+            return j[characterType];
         }
+    }
+
+	public Character(string charType)//float jumpForce, int maxHitpoints, float speed) 
+	{
+        characterType = charType;
+
+        // read configuration file
+        JSONObject entry = readConfig();
+        maxHitpoints = Int32.Parse(entry["maxHitpoints"].ToString());
+        jumpForce = float.Parse(entry["jumpForce"].ToString());
+        speed = float.Parse(entry["speed"].ToString());
+        currHitpoints = maxHitpoints;
     }
 }

@@ -1,7 +1,7 @@
 {
 "cat": {
-  "jumpForce":450.0f,
-  "speed":10.0f,
+  "jumpForce":450.0,
+  "speed":10.5,
   "maxHitpoints":100
   }
 }
