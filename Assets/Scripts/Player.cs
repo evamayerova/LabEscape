@@ -53,4 +53,12 @@ public class Player : MonoBehaviour {
 			grounded = true;
 	}
 
+    void OnTriggerEnter2D(Collider2D c)
+ 	{
+ 		// if trigger object is pickable, add item to inventory
+ 		if (c.gameObject.tag == "Pick Up") {
+ 			c.gameObject.SetActive (false);
+ 			character.GetComponent<Inventory>().AddObject(c.name);
+ 		}
+ 	}
 }
