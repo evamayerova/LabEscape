@@ -58,7 +58,8 @@ public class Player : MonoBehaviour {
  		// if trigger object is pickable, add item to inventory
  		if (c.gameObject.tag == "Pick Up") {
  			c.gameObject.SetActive (false);
- 			character.GetComponent<Inventory>().AddObject(c.name);
+            // TODO add object into inventory class
+ 			//character.GetComponent<Inventory>().AddObject(c.name);
  		}
  	}
 }
