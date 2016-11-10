@@ -12,6 +12,8 @@ public class Shooter : MonoBehaviour {
     Vector2 playerPosition;
 
 	void Start () {
+        Debug.Log(toShoot.value);
+        Debug.Log(LayerMask.GetMask("Enemy"));
         Debug.Log("defining firepoint transform");  
         firePointTransform = transform.FindChild("FirePoint");
     }
@@ -30,11 +32,10 @@ public class Shooter : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.RightControl)) {
-            Debug.Log("Player position" + playerPosition.x + "firepoint position" + firePointTransform.position.x);
             Vector2 destination = new Vector2(firePointTransform.position.x > playerPosition.x ? firePointTransform.position.x + range : (-firePointTransform.position.x - range), playerPosition.y);
             Vector2 direction = destination - new Vector2(firePointTransform.position.x, firePointTransform.position.y);
 
-            Bullet b = new Bullet(firePointTransform.position, direction.normalized, sprite, range, bulletSpeed);
+            Bullet b = new Bullet(firePointTransform.position, direction.normalized, sprite, toShoot, range, bulletSpeed);
         }
     }
 }
