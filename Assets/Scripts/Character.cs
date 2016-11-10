@@ -37,4 +37,9 @@ public class Character
         speed = float.Parse(entry["speed"].ToString());
         currHitpoints = maxHitpoints;
     }
+
+    void changeHealth(int offset)
+    {
+        currHitpoints += offset;
+    }
 }

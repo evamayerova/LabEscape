@@ -25,7 +25,7 @@ public class GunHolder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // player is now oriented left and right arrow is pressed
+        // player is now oriented left and right arrow is pressed or opposite
         if (Input.GetKeyDown(KeyCode.RightArrow) && !orientation ||
             Input.GetKeyDown(KeyCode.LeftArrow) && orientation)
         {

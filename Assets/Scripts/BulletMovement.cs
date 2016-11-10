@@ -6,13 +6,13 @@ public class BulletMovement : MonoBehaviour {
     public float distance = 5.0f;
     public float speed;
     public Vector2 startPosition, direction;
+    public LayerMask toShoot;
     Vector2 destination;
     Rigidbody2D rb2d;
     float remaining;
 
     // Use this for initialization
     void Start () {
-        Debug.Log("Start of BulletMovement component");
         rb2d = GetComponent<Rigidbody2D>();
         remaining = distance;
         rb2d.position = startPosition;
@@ -22,9 +22,7 @@ public class BulletMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (remaining < 0.1f)
-        {
-            Debug.Log("Destroying bullet");
+        if (remaining < 0.1f) {
             Destroy(gameObject);
         }
         
@@ -33,12 +31,16 @@ public class BulletMovement : MonoBehaviour {
         remaining = direction.x > 0 ? destination.x - newPos.x : newPos.x - destination.x;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         // Debug-draw all contact points and normals
-        foreach (ContactPoint contact in collision.contacts)
+        foreach (ContactPoint2D contact in collision.contacts)
         {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
+            if (toShoot == (toShoot | 1 << contact.collider.gameObject.layer)) {
+                // TODO target object has to take damage
+                Destroy(gameObject);
+            }
+            Debug.Log("COLISION");
         }
     }
 }
