@@ -2,44 +2,163 @@
 using System.IO;
 using UnityEngine;
 
-public class Character
+public class Character : MonoBehaviour
 {
     private int maxHitpoints;
     private float jumpForce;
     private float speed;
     private int currHitpoints;
     private string characterType;
-
+    private float moveDir;
+    private bool grounded = false;
 
     private JSONObject readConfig()
     {
+
         using (StreamReader r = new StreamReader("Assets/Conf/characters.json"))
         {
             string json = r.ReadToEnd();
             JSONObject j = new JSONObject(json);
 
-            if (!j[characterType])
+            if (!j[CharacterType])
             {
-                Debug.LogError("No entry named " + characterType);
+                Debug.LogError("No entry named " + CharacterType);
             }
-            return j[characterType];
+            return j[CharacterType];
         }
     }
 
-	public Character(string charType)//float jumpForce, int maxHitpoints, float speed) 
-	{
-        characterType = charType;
-
-        // read configuration file
+    protected void setDefaultStats()
+    {
         JSONObject entry = readConfig();
-        maxHitpoints = Int32.Parse(entry["maxHitpoints"].ToString());
-        jumpForce = float.Parse(entry["jumpForce"].ToString());
-        speed = float.Parse(entry["speed"].ToString());
-        currHitpoints = maxHitpoints;
+        MaxHitpoints = Int32.Parse(entry["maxHitpoints"].ToString());
+        JumpForce = float.Parse(entry["jumpForce"].ToString());
+        Speed = float.Parse(entry["speed"].ToString());
+        Debug.Log("Speed " + Speed);
+        CurrHitpoints = MaxHitpoints;
     }
 
-    void changeHealth(int offset)
+	public Character()//float jumpForce, int maxHitpoints, float speed) 
+	{
+                
+    }
+
+    public void changeHealth(int offset)
     {
-        currHitpoints += offset;
+        CurrHitpoints += offset;
+        if (CurrHitpoints <= 0)
+        {
+            die();
+            Destroy(gameObject);
+        }
+    }
+
+    void die()
+    {
+        Debug.Log("I am dead");
+    }
+
+    public int MaxHitpoints
+    {
+        get
+        {
+            return maxHitpoints;
+        }
+
+        set
+        {
+            maxHitpoints = value;
+        }
+    }
+
+    public float JumpForce
+    {
+        get
+        {
+            return jumpForce;
+        }
+
+        set
+        {
+            jumpForce = value;
+        }
+    }
+
+    public float Speed
+    {
+        get
+        {
+            return speed;
+        }
+
+        set
+        {
+            speed = value;
+        }
+    }
+
+    public int CurrHitpoints
+    {
+        get
+        {
+            return currHitpoints;
+        }
+
+        set
+        {
+            currHitpoints = value;
+        }
+    }
+
+    public string CharacterType
+    {
+        get
+        {
+            return CharacterType1;
+        }
+
+        set
+        {
+            CharacterType1 = value;
+        }
+    }
+
+    public float MoveDir
+    {
+        get
+        {
+            return moveDir;
+        }
+
+        set
+        {
+            moveDir = value;
+        }
+    }
+
+    public bool Grounded
+    {
+        get
+        {
+            return grounded;
+        }
+
+        set
+        {
+            grounded = value;
+        }
+    }
+
+    public string CharacterType1
+    {
+        get
+        {
+            return characterType;
+        }
+
+        set
+        {
+            characterType = value;
+        }
     }
 }
