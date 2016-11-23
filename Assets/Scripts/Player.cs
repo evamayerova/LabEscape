@@ -1,48 +1,57 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class Player : MonoBehaviour {
+public class Player : Character {
 
-	private Rigidbody2D character;
-	private bool grounded = false;
-	public float speed;
-	public float jumpForce;
-    public int hitpoints = 100;
+	private Rigidbody2D rigidBody2D;
+
+    const string defaultCharType = "cat";
+
 	// Use this for initialization
 	void Start () 
 	{
-		character = GetComponent<Rigidbody2D> ();
-	}
+        rigidBody2D = GetComponent<Rigidbody2D> ();
+        CharacterType = defaultCharType;
+        setDefaultStats();
+    }
 
 	void Update()
 	{
 		// enable jump if player is on ground
-		if (grounded)
+		if (Grounded)
 		{
-			character.AddForce(Vector2.up * jumpForce);
-			grounded = false;
+			rigidBody2D.AddForce(Vector2.up * JumpForce);
+			Grounded = false;
 		}
-	}
+
+        if (Input.GetButtonDown("Simple Bullet"))
+        {
+            gameObject.GetComponentInChildren<Shooter>().shoot();
+        }
+    }
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
-		float move = Input.GetAxis ("Horizontal");
-		// static movement
-		if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
-			character.velocity = new Vector2 (move * speed, character.velocity.y);
-		else
-			character.velocity = new Vector2 (0.0f, character.velocity.y);
+		MoveDir = Input.GetAxis ("Horizontal");
+        // static movement
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            rigidBody2D.velocity = new Vector2(MoveDir * Speed, rigidBody2D.velocity.y);
+        }
+        else
+            rigidBody2D.velocity = new Vector2(0.0f, rigidBody2D.velocity.y);
 
 		// fluent start, immediate stop
 		/*if (!Input.GetKey (KeyCode.RightArrow) && !Input.GetKey (KeyCode.LeftArrow)) 
 		{
 			move = 0.0f;
-			character.velocity = new Vector2 (0.0f, character.velocity.y);
+			rigidBody2D.velocity = new Vector2 (0.0f, rigidBody2D.velocity.y);
 		}
 		// movement
 		else {
-			character.velocity = new Vector2 (move * speed, character.velocity.y);
-			character.velocity = Vector2.ClampMagnitude (character.velocity, maxSpeed);
+			rigidBody2D.velocity = new Vector2 (move * speed, rigidBody2D.velocity.y);
+			rigidBody2D.velocity = Vector2.ClampMagnitude (rigidBody2D.velocity, maxSpeed);
 		}*/
 	}
 
@@ -50,7 +59,7 @@ public class Player : MonoBehaviour {
 	{
 		// player on ground
 		if (coll.gameObject.tag == "Ground" && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.UpArrow)))
-			grounded = true;
+			Grounded = true;
 	}
 
     void OnTriggerEnter2D(Collider2D c)
@@ -59,7 +68,7 @@ public class Player : MonoBehaviour {
  		if (c.gameObject.tag == "Pick Up") {
  			c.gameObject.SetActive (false);
             // TODO add object into inventory class
- 			//character.GetComponent<Inventory>().AddObject(c.name);
+ 			//rigidBody2D.GetComponent<Inventory>().AddObject(c.name);
  		}
  	}
 }
