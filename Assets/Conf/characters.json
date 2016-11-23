@@ -3,5 +3,10 @@
   "jumpForce":450.0,
   "speed":10.5,
   "maxHitpoints":100
+  },
+"technican": {
+  "jumpForce":450.0,
+  "speed":10.5,
+  "maxHitpoints":100
   }
 }
