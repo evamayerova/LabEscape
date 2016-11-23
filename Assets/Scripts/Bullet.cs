@@ -7,7 +7,7 @@ public class Bullet {
     public SpriteRenderer bulet_spriteRenderer;
     public GameObject bullet;
 
-    public Bullet(Vector2 orig, Vector2 dir, Sprite sprite, LayerMask lm, float distance = 5.0f, float speed = 10.0f)
+    public Bullet(Vector2 orig, Vector2 dir, Sprite sprite, LayerMask lm, float distance = 5.0f, float speed = 10.0f, int damage = 10)
     {
         bullet = new GameObject();
         BulletMovement bm = bullet.AddComponent<BulletMovement>();
@@ -16,6 +16,7 @@ public class Bullet {
         bm.startPosition = orig;
         bm.direction = dir;
         bm.toShoot = lm;
+        bm.damage = damage;
         SpriteRenderer sr = bullet.AddComponent<SpriteRenderer>();
         sr.sprite = sprite;
         bullet.AddComponent<Rigidbody2D>();

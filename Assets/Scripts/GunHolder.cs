@@ -7,10 +7,14 @@ public class GunHolder : MonoBehaviour
     bool orientation; // true - right oriented, false - left oriented
     Transform weaponTransform;
     Transform firePointTransform;
+    Character character;
 
     // Use this for initialization
     void Start()
     {
+        character = gameObject.GetComponent<Character>();
+        if (!character)
+            Debug.LogError("No character");
         weaponTransform = transform.FindChild("Weapon");
         if (weaponTransform == null)
             Debug.Log("No weapon found");
@@ -26,12 +30,13 @@ public class GunHolder : MonoBehaviour
     void Update()
     {
         // player is now oriented left and right arrow is pressed or opposite
-        if (Input.GetKeyDown(KeyCode.RightArrow) && !orientation ||
-            Input.GetKeyDown(KeyCode.LeftArrow) && orientation)
+        //Character.MoveDi = Input.GetAxis("Horizontal");
+
+        if (character.MoveDir < 0.0f && orientation || character.MoveDir > 0.0f && !orientation)
+        // move left
         {
             orientation = !orientation;
             weaponTransform.position = transform.position - weaponTransform.position + transform.position;
-            Debug.Log(firePointTransform.position);
             firePointTransform.position = weaponTransform.position - firePointTransform.position + weaponTransform.position;
         }
 

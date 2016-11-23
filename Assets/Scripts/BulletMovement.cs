@@ -5,6 +5,7 @@ public class BulletMovement : MonoBehaviour {
 
     public float distance = 5.0f;
     public float speed;
+    public int damage;
     public Vector2 startPosition, direction;
     public LayerMask toShoot;
     Vector2 destination;
@@ -39,8 +40,12 @@ public class BulletMovement : MonoBehaviour {
             if (toShoot == (toShoot | 1 << contact.collider.gameObject.layer)) {
                 // TODO target object has to take damage
                 Destroy(gameObject);
+                Debug.Log(collision.gameObject.name);
+                Character hitChar = collision.gameObject.GetComponent<Character>();
+
+                hitChar.changeHealth(-damage);
+                Debug.Log("COLISION");
             }
-            Debug.Log("COLISION");
         }
     }
 }
