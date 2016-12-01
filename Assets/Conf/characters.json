@@ -12,7 +12,7 @@
   "speed":10.5,
   "maxHitpoints":100,
   "texture":"tech_idle.png",
-  "hearingRange":0.0,
-  "shootingRange":0.0
+  "hearingRange":10.0,
+  "shootingRange":10.0
   }
 }
