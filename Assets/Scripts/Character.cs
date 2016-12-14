@@ -7,7 +7,10 @@ public class Character : MonoBehaviour
     private int maxHitpoints;
     private float jumpForce;
     private float speed;
-    private int currHitpoints;
+	private int currHitpoints;
+	private string texName;
+	private float hearingRange;
+	private float shootingRange;
     private string characterType;
     private float moveDir;
     private bool grounded = false;
@@ -34,7 +37,10 @@ public class Character : MonoBehaviour
         MaxHitpoints = Int32.Parse(entry["maxHitpoints"].ToString());
         JumpForce = float.Parse(entry["jumpForce"].ToString());
         Speed = float.Parse(entry["speed"].ToString());
-        Debug.Log("Speed " + Speed);
+		TexName = entry ["texture"].ToString ();
+		HearingRange = float.Parse(entry["hearingRange"].ToString());
+		ShootingRange = float.Parse(entry["shootingRange"].ToString());
+        //Debug.Log("Speed " + Speed);
         CurrHitpoints = MaxHitpoints;
     }
 
@@ -161,4 +167,40 @@ public class Character : MonoBehaviour
             characterType = value;
         }
     }
+	public string TexName
+	{
+		get
+		{
+			return texName;
+		}
+		
+		set
+		{
+			texName = value;
+		}
+	}
+	public float HearingRange
+	{
+		get
+		{
+			return hearingRange;
+		}
+		
+		set
+		{
+			hearingRange = value;
+		}
+	}
+	public float ShootingRange
+	{
+		get
+		{
+			return shootingRange;
+		}
+		
+		set
+		{
+			shootingRange = value;
+		}
+	}
 }

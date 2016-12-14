@@ -2,11 +2,17 @@
 "cat": {
   "jumpForce":450.0,
   "speed":10.5,
-  "maxHitpoints":100
+  "maxHitpoints":100,
+  "texture":"cat_idle.png",
+  "hearingRange":0.0,
+  "shootingRange":0.0
   },
 "technican": {
   "jumpForce":450.0,
   "speed":10.5,
-  "maxHitpoints":100
+  "maxHitpoints":100,
+  "texture":"tech_idle.png",
+  "hearingRange":10.0,
+  "shootingRange":10.0
   }
 }
