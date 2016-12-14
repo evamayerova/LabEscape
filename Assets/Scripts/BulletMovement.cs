@@ -39,13 +39,13 @@ public class BulletMovement : MonoBehaviour {
         {
             if (toShoot == (toShoot | 1 << contact.collider.gameObject.layer)) {
                 // TODO target object has to take damage
-                Destroy(gameObject);
                 Debug.Log(collision.gameObject.name);
                 Character hitChar = collision.gameObject.GetComponent<Character>();
 
                 hitChar.changeHealth(-damage);
                 Debug.Log("COLISION");
             }
+            Destroy(gameObject);
         }
     }
 }
