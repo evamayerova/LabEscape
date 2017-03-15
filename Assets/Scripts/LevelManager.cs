@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System;
 
 public class LevelManager : MonoBehaviour {
 
@@ -91,14 +92,56 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    public void spawnPlayer()
+    {
+        GameObject.Find("Person").GetComponent<Transform>().position = new Vector3(1.0f, 3.0f, 0.0f);
+    }
+
 	// Use this for initialization
 	void Start () {
         createMap();
         createEnemy(new Vector2(3.0f, -1.0f), "technician");
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        createPlayer(new Vector2(1.0f, 3.0f), "cat");
+        GameObject.Find("Main Camera").AddComponent<CharacterFollower>();
+        spawnPlayer();
+    }
+
+    private void createPlayer(Vector2 position, string type)
+    {
+        Debug.Log(type);
+        GameObject player = new GameObject("Person");
+        Transform transform = player.GetComponent<Transform>();
+        transform.position = position;
+        player.AddComponent<Player>().CharacterType = type;
+        Debug.Log("Player type " + player.GetComponent<Player>().CharacterType);
+        addTexture(player, "Assets/Graphics/character.png", 30, 50);
+        player.AddComponent<BoxCollider2D>();
+        Rigidbody2D rb2d = player.AddComponent<Rigidbody2D>();
+        rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
+        player.AddComponent<GunHolder>();
+        player.tag = "Player";
+
+        GameObject weapon = new GameObject("Weapon");
+        addTexture(weapon, "Assets/Graphics/block.png", 100, 100);
+        weapon.GetComponent<Transform>().parent = player.GetComponent<Transform>();
+        GameObject firePoint = new GameObject("FirePoint");
+        firePoint.GetComponent<Transform>().parent = weapon.GetComponent<Transform>();
+        weapon.AddComponent<Shooter>();
+
+    }
+
+    private void addTexture(GameObject gameObject, string fileName, int w, int h)
+    {
+        SpriteRenderer sr = gameObject.AddComponent<SpriteRenderer>();
+        Texture2D tex = new Texture2D(w, h);
+        byte[] image = File.ReadAllBytes(fileName);
+        tex.LoadImage(image);
+        Sprite s = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.0f, 0.0f));
+        sr.sprite = s;
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 }

@@ -8,11 +8,17 @@ public class Player : Character {
 
     const string defaultCharType = "cat";
 
+    //public Player(string type)
+    //{
+    //    CharacterType = type;
+    //}
+    //
 	// Use this for initialization
 	void Start () 
 	{
         rigidBody2D = GetComponent<Rigidbody2D> ();
-        CharacterType = defaultCharType;
+        //CharacterType = defaultCharType;
+        Debug.Log("Character type " + CharacterType);
         setDefaultStats();
     }
 
@@ -71,4 +77,16 @@ public class Player : Character {
  			//rigidBody2D.GetComponent<Inventory>().AddObject(c.name);
  		}
  	}
+
+    void respawn()
+    {
+        GameObject.Find("LevelManager").GetComponent<LevelManager>().spawnPlayer();
+        setDefaultStats();
+    }
+
+    public override void die()
+    {
+        Debug.Log("Player died");
+        respawn();
+    }
 }

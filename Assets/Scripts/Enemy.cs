@@ -52,4 +52,9 @@ public class Enemy : Character {
     {
         gameObject.GetComponentInChildren<Shooter>().shoot();
 	}
+
+    public override void die()
+    {
+        Debug.Log("Enemy died");
+    }
 }

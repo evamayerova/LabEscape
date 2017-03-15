@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+abstract public class Character : MonoBehaviour
 {
     private int maxHitpoints;
     private float jumpForce;
@@ -55,14 +55,11 @@ public class Character : MonoBehaviour
         if (CurrHitpoints <= 0)
         {
             die();
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
     }
 
-    void die()
-    {
-        Debug.Log("I am dead");
-    }
+    abstract public void die();
 
     public int MaxHitpoints
     {
