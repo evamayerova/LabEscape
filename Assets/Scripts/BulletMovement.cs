@@ -41,7 +41,7 @@ public class BulletMovement : MonoBehaviour {
                 // TODO target object has to take damage
                 Debug.Log(collision.gameObject.name);
                 Character hitChar = collision.gameObject.GetComponent<Character>();
-
+                Debug.Log(hitChar);
                 hitChar.changeHealth(-damage);
                 Debug.Log("COLISION");
             }
